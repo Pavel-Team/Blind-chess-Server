@@ -77,20 +77,24 @@ public class User {
     @JoinColumn(name="user_id")
     private List<Achievements> Achievements;
 
-    //Связь с таблицей Friend
-    @OneToMany()
-    @JoinColumn(name="user_id")
-    private List<Friend> friends;
-
     //Связь с таблицей Inventory
     @OneToMany()
     @JoinColumn(name="user_id")
     private List<Inventory> products;
 
     //Связь с таблицей Friend
-    //...
+    @OneToMany()
+    @JoinColumn(name="user_1_id")
+    private List<Friend> friendList1;
+    @OneToMany()
+    @JoinColumn(name="user_2_id")
+    private List<Friend> friendList2;
 
-    //Связь с таблицей GameRoom
-    //...
-
+    //Связь с таблицей Chat
+    @OneToMany()
+    @JoinColumn(name="user_1_id")
+    private List<Chat> chatList1;
+    @OneToMany()
+    @JoinColumn(name="user_2_id")
+    private List<Chat> chatList2;
 }

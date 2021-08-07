@@ -1,5 +1,4 @@
-/**Модель сущности Friend (таблица с id друзей и их общего чата)
- * P.S. Таблица не связана с User, так как все запросы, связанные с друзьями, написаны вручную*/
+/**Модель сущности Friend (таблица с id друзей и их общего чата)*/
 package org.example.blindChessServer.model;
 
 import lombok.AllArgsConstructor;
