@@ -31,7 +31,7 @@ public class LoginController {
      * В запросе принимает 2 параметра:
      * String email - email пользователя
      * String password - пароль пользователя
-     * Если пользователь найден - вернет объект User в виде строки, иначе - вернет ERROR_PASSWORD или NOT_FOUND*/
+     * Если пользователь найден - вернет объект UserDTO в виде строки, иначе - вернет ERROR_PASSWORD или NOT_FOUND*/
     @PostMapping("/checkUser")
     public ResponseEntity login(@RequestParam String email, @RequestParam String password){
         AbstractMap.SimpleEntry<String, UserDTO> serviceResponse = loginService.checkLoginUser(email, password);

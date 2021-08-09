@@ -26,7 +26,7 @@ public class LoginService {
      * На вход принимает 2 параметра:
      * String email - email пользователя
      * String password - пароль пользователя
-     * Если пользователь будет найден - вернет "OK" в ключе и объект User в значении, иначе - вернет ERROR_PASSWORD или NOT_FOUND в ключе и null в значении*/
+     * Если пользователь будет найден - вернет "OK" в ключе и объект UserDTO в значении, иначе - вернет ERROR_PASSWORD или NOT_FOUND в ключе и null в значении*/
     public AbstractMap.SimpleEntry<String, UserDTO> checkLoginUser(String email, String password) {
         Login login = loginRepository.findByEmail(email);
 

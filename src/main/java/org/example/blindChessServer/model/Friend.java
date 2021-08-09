@@ -4,9 +4,9 @@ package org.example.blindChessServer.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.blindChessServer.model.embeddable.FriendKey;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 @Entity
@@ -16,16 +16,6 @@ import java.io.Serializable;
 public class Friend {
 
     //Составной первичный ключ
-    @Embeddable
-    class FriendKey implements Serializable {
-        //id первого друга
-        private Integer user_1_id;
-
-        //id второго друга
-        private Integer user_2_id;
-    }
-
-    //Первичный ключ
     @EmbeddedId
     private FriendKey friendKey;
 

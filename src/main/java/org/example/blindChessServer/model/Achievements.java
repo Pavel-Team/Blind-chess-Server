@@ -4,9 +4,9 @@ package org.example.blindChessServer.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.blindChessServer.model.embeddable.AchievementsKey;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 @Entity
@@ -14,18 +14,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Achievements {
-
-    //Составной первичный ключ для достижений
-    @Embeddable
-    class AchievementsKey implements Serializable {
-        //id пользователя
-        @Column(name="user_id")
-        private Integer user_id;
-
-        //id получаемого достижения
-        @Column(name="achievement_id")
-        private Integer achievement_id;
-    }
 
     //Первичный внешний ключ
     @EmbeddedId

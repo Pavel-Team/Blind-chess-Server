@@ -44,7 +44,7 @@ public class User {
     @Column(nullable = false, columnDefinition = "int default 0")
     private Integer league_rating;
 
-    //Текущий статус пользователя (online или offline)
+    //Текущий статус пользователя (ONLINE или OFFLINE)
     private String status;
 
     //Число монет
@@ -53,17 +53,17 @@ public class User {
 
     //Фон автарки пользователя
     @OneToOne
-    @JoinColumn(name="background_id")
+    @JoinColumn(name="background_id", columnDefinition = "int default 1")
     private Product background;
 
     //Название переднего плана аватарки пользователя
     @OneToOne
-    @JoinColumn(name="foreground_id")
+    @JoinColumn(name="foreground_id", columnDefinition = "int default 13")
     private Product foreground;
 
     //Название набора шахмат пользователя
     @OneToOne
-    @JoinColumn(name="skin_id")
+    @JoinColumn(name="skin_id", columnDefinition = "int default 14")
     private Product skin;
 
 

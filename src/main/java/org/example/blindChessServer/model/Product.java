@@ -24,7 +24,7 @@ public class Product {
     @Column(nullable = false)
     private String title;
 
-    //Тип товара (фон, передний план, скин для шахмат)
+    //Тип товара (BACKGROUND, FOREGROUND или SKIN)
     @Column(nullable = false)
     private String type;
 

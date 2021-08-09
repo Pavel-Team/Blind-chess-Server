@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.blindChessServer.model.*;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -80,7 +80,7 @@ public class UserDTO {
     private List<Inventory> products;
 
     //Друзья пользователя
-    private List<Friend> friends;
+    private List<Friend> friends = new ArrayList<Friend>();
 
     //Чаты пользователя
     private List<Chat> chats;

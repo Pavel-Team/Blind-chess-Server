@@ -4,9 +4,9 @@ package org.example.blindChessServer.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.blindChessServer.model.embeddable.InventoryKey;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 @Entity
@@ -14,16 +14,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Inventory {
-
-    //Составной первичный ключ
-    @Embeddable
-    class InventoryKey implements Serializable {
-        @Column(nullable = false)
-        private Integer user_id;
-
-        @Column(nullable = false)
-        private Integer product_id;
-    }
 
     //Первичный ключ
     @EmbeddedId
