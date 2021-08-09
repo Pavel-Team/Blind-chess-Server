@@ -19,9 +19,9 @@ public class Login {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer user_id;
 
-    //Логин пользователя
+    //Email пользователя
     @Column(nullable = false, length = 30)
-    private String login;
+    private String email;
 
     //Пароль пользователя
     @Column(nullable = false, length = 30)
