@@ -17,10 +17,16 @@ public class League {
     //id лиги (совпадает с её номером)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer inventory_id;
+    private Integer league_id;
 
     //Минимальный рейтинг для получения данной лиги
     private Integer rating_min;
+
+    //Очки рейтинга, получаемые за победу в данной лиге
+    private Integer rating_plus;
+
+    //Очки рейтинга, которые отнимутся за поражения в данной лиге
+    private Integer rating_minus;
 
 
     //Связь с таблицей Product

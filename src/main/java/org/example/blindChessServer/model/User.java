@@ -41,8 +41,13 @@ public class User {
     private Integer league_max_in_this_season;
 
     //Рейтинг в текущем сезоне
-    @Column(nullable = false, columnDefinition = "int default 0")
+    @Column(nullable = false, columnDefinition = "int default 0") //ВРЕМЕННО
     private Integer league_rating;
+
+    //Текущая лига
+    @OneToOne
+    @JoinColumn(name="league", columnDefinition = "int default 15") //ВРЕМЕННО
+    private League league;
 
     //Текущий статус пользователя (ONLINE или OFFLINE)
     private String status;
