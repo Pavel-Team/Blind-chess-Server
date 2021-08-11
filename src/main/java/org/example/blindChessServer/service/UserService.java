@@ -2,10 +2,7 @@
 package org.example.blindChessServer.service;
 
 import org.example.blindChessServer.DTO.UserDTO;
-import org.example.blindChessServer.model.Inventory;
-import org.example.blindChessServer.model.League;
-import org.example.blindChessServer.model.Login;
-import org.example.blindChessServer.model.User;
+import org.example.blindChessServer.model.*;
 import org.example.blindChessServer.model.embeddable.InventoryKey;
 import org.example.blindChessServer.repository.*;
 import org.springframework.stereotype.Service;
@@ -145,8 +142,12 @@ public class UserService {
 
                             //Проверяем на получение предмета
                             if (nextLeague.getProduct() != null) {
+                                InventoryKey inventoryKey = new InventoryKey();
+                                inventoryKey.setUser_id(user_id);
+                                inventoryKey.setProduct_id(nextLeague.getProduct().getProduct_id());
+
                                 Inventory prize = new Inventory();
-                                prize.setInventoryKey(new InventoryKey(user_id, nextLeague.getProduct().getProduct_id()));
+                                prize.setInventoryKey(inventoryKey);
                                 inventoryRepository.save(prize);
                             }
                         }
@@ -183,6 +184,39 @@ public class UserService {
 
         userRepository.save(user);
         return "STATISTICS_UPDATE";
+    }
+
+
+    /**Метод для покупки игрового предмета пользователем
+     * На вход принимает 2 параметра:
+     * Integer user_id - id пользователя
+     * Integer product_id - id игрового предмета, который покупают
+     * В случае успеха вернет PRODUCT_BUY, если недостаточно монет - ERROR_MONEY, если такой продукт уже есть - ERROR_PRODUCT*/
+    public String buyProduct(Integer user_id, Integer product_id) {
+        InventoryKey inventoryKey = new InventoryKey();
+        inventoryKey.setUser_id(user_id);
+        inventoryKey.setProduct_id(product_id);
+
+        if (inventoryRepository.findById(inventoryKey).isEmpty()) {
+            User user = userRepository.findByUserId(user_id);
+            Product product = productRepository.findProductById(product_id);
+            Integer userMoney = user.getMoney();
+            Integer productPrice = product.getPrice();
+
+            if (userMoney >= productPrice) {
+                Inventory newProduct = new Inventory();
+                newProduct.setInventoryKey(inventoryKey);
+                user.setMoney(userMoney - productPrice);
+                inventoryRepository.save(newProduct);
+                userRepository.save(user);
+                return "PRODUCT_BUY";
+            } else {
+                return "ERROR_MONEY";
+            }
+
+        } else {
+            return "ERROR_PRODUCT";
+        }
     }
 
 }

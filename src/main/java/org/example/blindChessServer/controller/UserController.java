@@ -1,4 +1,4 @@
-/**Контроллер USER, отвечающий за запросы, связанные с изменением информации в аккаунтах пользователей*/
+/**Контроллер User, отвечающий за запросы, связанные с изменением информации в аккаунтах пользователей*/
 package org.example.blindChessServer.controller;
 
 import org.example.blindChessServer.DTO.UserDTO;
@@ -96,6 +96,29 @@ public class UserController {
                 return new ResponseEntity("STATISTICS_UPDATE", HttpStatus.OK);
             default:
                 return new ResponseEntity("ERROR_UPDATE_STATISTICS", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    /**PostMapping для покупки игрового предмета пользователем
+     * На вход принимает 2 параметра:
+     * Integer user_id - id пользователя
+     * Integer product_id - id игрового предмета, который покупают
+     * В случае успеха вернет PRODUCT_BUY, если недостаточно монет - ERROR_MONEY, если такой продукт уже есть - ERROR_PRODUCT,
+     * иначе - ERROR_BUY*/
+    @PostMapping("buyProduct/{user_id}")
+    public ResponseEntity buyProduct(@PathVariable Integer user_id, @RequestParam Integer product_id) {
+        String responce = userService.buyProduct(user_id, product_id);
+
+        switch (responce) {
+            case "PRODUCT_BUY":
+                return new ResponseEntity("PRODUCT_BUY", HttpStatus.OK);
+            case "ERROR_MONEY":
+                return new ResponseEntity("ERROR_MONEY", HttpStatus.BAD_REQUEST);
+            case "ERROR_PRODUCT":
+                return new ResponseEntity("ERROR_PRODUCT", HttpStatus.BAD_REQUEST);
+            default:
+                return new ResponseEntity("ERROR_BUY", HttpStatus.BAD_REQUEST);
         }
     }
 
