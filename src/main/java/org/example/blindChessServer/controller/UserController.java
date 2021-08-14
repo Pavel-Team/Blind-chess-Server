@@ -100,6 +100,25 @@ public class UserController {
     }
 
 
+    /**PatchMapping для редактирования аватарки и скина пользователя
+     * На вход принимает 4 параметра:
+     * Integer user_id - id заданного пользвателя
+     * Integer background_id - id заднего фона аватарки (таблица Product)
+     * Integer foreground_id - id переднего плана аватарки (таблица Product)
+     * Integer skin_id - id скина для набора шахмат (таблица Product)
+     * В случае успеха вернет UPDATE_AVATAR_AND_SKIN, иначе - ERROR_UPDATE_AVATAR_AND_SKIN*/
+    @PatchMapping("/editAvatarAndSkin/{user_id}")
+    public ResponseEntity editAvatarAndSkin(@PathVariable Integer user_id, @RequestParam Integer background_id,
+                                            @RequestParam Integer foreground_id, @RequestParam Integer skin_id) {
+        String response = userService.updateAvatarAndSkin(user_id, background_id, foreground_id, skin_id);
+
+        if (response.equals("UPDATE_AVATAR_AND_SKIN"))
+            return new ResponseEntity("UPDATE_AVATAR_AND_SKIN", HttpStatus.OK);
+        else
+            return new ResponseEntity("ERROR_UPDATE_AVATAR_AND_SKIN", HttpStatus.BAD_REQUEST);
+    }
+
+
     /**PostMapping для покупки игрового предмета пользователем
      * На вход принимает 2 параметра:
      * Integer user_id - id пользователя

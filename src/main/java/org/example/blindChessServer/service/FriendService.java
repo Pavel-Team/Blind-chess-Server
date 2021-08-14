@@ -20,7 +20,7 @@ public class FriendService {
 
 
     /**Конструктор класса
-     * На вход принимает 2 параметра:
+     * На вход принимает 3 параметра:
      * FriendRepository friendRepository - бин для работы в БД с сущностью Friend
      * UserRepository userRepository - бин для работы в БД с сущностью User
      * ChatRepository chatRepository - бин для работы в дб с сущностью Chat*/

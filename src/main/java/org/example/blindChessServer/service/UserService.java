@@ -17,21 +17,29 @@ public class UserService {
     private final LeagueRepository leagueRepository;       //Объект для работы в БД с сущностью League
     private final InventoryRepository inventoryRepository; //Объект для работы в БД с сущностью Inventory
 
+    private AchievementsService achievementsService;       //Объект для работы с бизнес-логикой в сущности Achievements
+    private InventoryService inventoryService;             //Объект для работы с бизнес-логикой в сущности Inventory
+
 
     /**Конструктор класса
-     * На вход принимает 5 параметров:
+     * На вход принимает 7 параметров:
      * UserRepository userRepository - бин для работы в БД с сущностью User
      * LoginRepository loginRepository - бин для работы в БД с сущностью Login
      * ProductRepository productRepository - бин для работы в БД с сущностью Product
      * LeagueRepository leagueRepository - бин для работы в БД с сущностью League
-     * InventoryRepository inventoryRepository - бин для работы в БД с сущностью Inventory*/
+     * InventoryRepository inventoryRepository - бин для работы в БД с сущностью Inventory
+     * AchievementsService achievementsService - бин для работы с бизнес-логикой сущности Achievements
+     * InventoryService inventoryService - бин для работы с бизнес-логикой сущности Inventory*/
     public UserService(UserRepository userRepository, LoginRepository loginRepository, ProductRepository productRepository,
-                       LeagueRepository leagueRepository, InventoryRepository inventoryRepository) {
+                       LeagueRepository leagueRepository, InventoryRepository inventoryRepository,
+                       AchievementsService achievementsService, InventoryService inventoryService) {
         this.userRepository = userRepository;
         this.loginRepository = loginRepository;
         this.productRepository = productRepository;
         this.leagueRepository = leagueRepository;
         this.inventoryRepository = inventoryRepository;
+        this.achievementsService = achievementsService;
+        this.inventoryService = inventoryService;
     }
 
 
@@ -73,9 +81,11 @@ public class UserService {
 
         //Создание новой записи в таблице User
         User newUser = new User();
+        int count_leagues = (int) leagueRepository.count();
         newUser.setName(name);
-        newUser.setBest_league(15);
-        newUser.setLeague_max_in_this_season(15);
+        newUser.setBest_league(count_leagues);
+        newUser.setLeague_max_in_this_season(count_leagues);
+        newUser.setLeague(leagueRepository.findByLeagueId(count_leagues));
         newUser.setLeague_rating(0);
         newUser.setDefeats(0);
         newUser.setWins(0);
@@ -84,11 +94,18 @@ public class UserService {
         newUser.setBackground(productRepository.findProductById(13));
         newUser.setForeground(productRepository.findProductById(1));
         newUser.setSkin(productRepository.findProductById(14));
-        //Добавить записи в Inventory и Achievements
-        //...
 
         loginRepository.save(newLogin);
         userRepository.save(newUser);
+
+        Integer user_id = (int) userRepository.count();
+
+        //Добавляем игровые предметы в Inventory
+        inventoryService.firstCreate(user_id);
+
+        //Добавляем достижения пользователя
+        achievementsService.createAchievements(user_id); //ВРЕМЕННО
+
         return "ACCOUNT_CREATED";
     }
 
@@ -184,6 +201,29 @@ public class UserService {
 
         userRepository.save(user);
         return "STATISTICS_UPDATE";
+    }
+
+
+    /**Метод для редактирования аватарки и скина пользователя
+     * На вход принимает 4 параметра:
+     * Integer user_id - id заданного пользвателя
+     * Integer background_id - id заднего фона аватарки (таблица Product)
+     * Integer foreground_id - id переднего плана аватарки (таблица Product)
+     * Integer skin_id - id скина для набора шахмат (таблица Product)
+     * В случае успеха вернет UPDATE_AVATAR_AND_SKIN*/
+    public String updateAvatarAndSkin(Integer user_id, Integer background_id, Integer foreground_id, Integer skin_id) {
+        User user = userRepository.findByUserId(user_id);
+        Product background = productRepository.findProductById(background_id);
+        Product foreground = productRepository.findProductById(foreground_id);
+        Product skin = productRepository.findProductById(skin_id);
+
+        user.setBackground(background);
+        user.setForeground(foreground);
+        user.setSkin(skin);
+
+        userRepository.save(user);
+
+        return "UPDATE_AVATAR_AND_SKIN";
     }
 
 
